@@ -7,7 +7,6 @@
 from .config import userOption
 from aqt.utils import getOnlyText
 from anki.utils import intTime
-from anki.find import Finder
 from anki.notes import Note
 from aqt import mw
 
@@ -32,7 +31,7 @@ def removeRelationsFromNote(self):
                 self.delTag(tag)
                 debug(f"Removing tag {tag} from note {self.id}")
                 break
-    
+
 
 Note.getRelations=getRelationsFromNote
 Note.removeRelations=removeRelationsFromNote
@@ -46,7 +45,7 @@ def getRelationsFromNotes(notes):
         relations |= note.getRelations()
     debug(f"The relations from notes {notes} are {relations}")
     return relations
-        
+
 def createRelationName():
     """A tag, from current prefix and an id.
 
@@ -60,7 +59,7 @@ def createRelationName():
 def queryRelated(relations):
     query =" or ".join([f"tag:{relation}" for relation in relations])
     debug(f"Query from relations {relations} is {query}")
-    return query 
+    return query
 
 def getNidsFromRelation(relation):
     nids=getNidsFromRelations([relation])
@@ -72,18 +71,18 @@ def getNotesFromRelation(relation):
     return nids
 
 def getNidsFromRelations(relations):
-    finder = Finder(mw.col)
-    nids= set(finder.findNotes(queryRelated(relations)))
+    nids = set(mw.col.findNotes(queryRelated(relations)))
     debug(f"from relations {relations} we get nids {nids}")
     return nids
+
 def getNotesFromRelations(relations):
     notes={Note(mw.col, id=nid) for nid in getNidsFromRelations(relations)}
     debug(f"from relations {relations} we get notes {notes}")
     return notes
 
 def getSelectedNotes(browser):
-        nids=browser.selectedNotes()
-        debug(f"Selected nids are {nids}")
-        notes={Note(mw.col,id=nid) for nid in nids}
-        debug(f"Selected notes are {notes}")
-        return notes
+    nids=browser.selectedNotes()
+    debug(f"Selected nids are {nids}")
+    notes={Note(mw.col,id=nid) for nid in nids}
+    debug(f"Selected notes are {notes}")
+    return notes
