@@ -48,6 +48,10 @@ def _burySiblingsAux(self, card, V1):
                 self._revQueue.remove(cid)
             except ValueError:
                 pass
+            else:
+                # decrement note count so Anki doesn't run out of cards and rebuild queues
+                self.revCount -= 1
+
         else:
             # if bury disabled, we still discard to give same-day spacing
             if buryNew:
@@ -56,6 +60,10 @@ def _burySiblingsAux(self, card, V1):
                 self._newQueue.remove(cid)
             except ValueError:
                 pass
+            else:
+                # decrement note count so Anki doesn't run out of cards and rebuild queues
+                self.newCount -= 1
+
     # then bury
     if toBury:
         debug(f"Burying {toBury}")
