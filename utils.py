@@ -5,7 +5,6 @@
 # Source in https://github.com/Arthur-Milchior/anki-relation
 # Addon number 413416269  https://ankiweb.net/shared/info/413416269
 
-from anki.find import Finder
 from anki.notes import Note
 from anki.utils import intTime
 from aqt import mw
@@ -100,8 +99,7 @@ def getNotesFromRelation(relation):
 
 
 def getNidsFromRelations(relations):
-    finder = Finder(mw.col)
-    nids = set(finder.findNotes(queryRelated(relations)))
+    nids = set(mw.col.findNotes(queryRelated(relations)))
     debug(f"from relations {relations} we get nids {nids}")
     return nids
 
